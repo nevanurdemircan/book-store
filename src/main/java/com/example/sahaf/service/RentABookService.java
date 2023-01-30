@@ -2,6 +2,7 @@ package com.example.sahaf.service;
 
 import com.example.sahaf.dto.FindAllByStartDateResponse;
 import com.example.sahaf.dto.RentABookDto;
+import com.example.sahaf.dto.UserRentedBookInformationResponse;
 import com.example.sahaf.entities.RentABook;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface RentABookService {
     List<RentABook> findAll();
 
     FindAllByStartDateResponse findAllByStartDate(String startDate) throws Exception;
+
+    UserRentedBookInformationResponse usersRentedBookInformation(String userName);
 
 }

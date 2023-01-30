@@ -2,6 +2,8 @@ package com.example.sahaf.service.impl;
 
 import com.example.sahaf.dto.FindAllByStartDateResponse;
 import com.example.sahaf.dto.RentABookDto;
+import com.example.sahaf.dto.UserRentedBookInformationDto;
+import com.example.sahaf.dto.UserRentedBookInformationResponse;
 import com.example.sahaf.entities.Book;
 import com.example.sahaf.entities.RentABook;
 import com.example.sahaf.entities.User;
@@ -27,9 +29,11 @@ public class RentABookServiceImpl implements RentABookService {
     private final BookService bookService;
     private final UserService userService;
 
+
     @Override
     public String rentedBook(RentABookDto rentABookDto) {
         RentABook rentABook = new RentABook();
+
 
         Book book = this.bookService.findById(rentABookDto.getBookId());
 
@@ -57,17 +61,17 @@ public class RentABookServiceImpl implements RentABookService {
 
     @Override
     public RentABook save(RentABook rentABook) {
-        return this.rentABookRepository.save(rentABook);
+        return rentABookRepository.save(rentABook);
     }
 
     @Override
     public RentABook update(RentABook rentABook) {
-        return this.rentABookRepository.save(rentABook);
+        return rentABookRepository.save(rentABook);
     }
 
     @Override
     public List<RentABook> findAll() {
-        return this.rentABookRepository.findAll();
+        return rentABookRepository.findAll();
     }
 
     @Override
@@ -82,7 +86,7 @@ public class RentABookServiceImpl implements RentABookService {
         Date endDate = calendar.getTime();
 
 
-        List<RentABook> rentABookList = this.rentABookRepository.findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(endDate, date);
+        List<RentABook> rentABookList = rentABookRepository.findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(endDate, date);
 
         List<RentABookDto> rentABookDtos = new ArrayList<>();
 
@@ -103,10 +107,27 @@ public class RentABookServiceImpl implements RentABookService {
         findAllByStartDateResponse.setCount(rentABookDtos.size());
         findAllByStartDateResponse.setRentABookDtoList(rentABookDtos);
 
-
         return findAllByStartDateResponse;
-
     }
+
+    @Override
+    public UserRentedBookInformationResponse usersRentedBookInformation(String userName) {
+        List<RentABook> rentABookList = rentABookRepository.findAllByUserName(userName);
+        List<UserRentedBookInformationDto> dtos = new ArrayList<>();
+
+        rentABookList.forEach(rentABook -> {
+            UserRentedBookInformationDto dto = new UserRentedBookInformationDto();
+            dto.setBookName(rentABook.getBook().getName());
+            dto.setBookStoreName(rentABook.getBook().getBookStore().getName());
+            dtos.add(dto);
+        });
+        UserRentedBookInformationResponse response = new UserRentedBookInformationResponse();
+        response.setUserRentedBookInformationDtos(dtos);
+        response.setCount(dtos.size());
+
+        return response;
+    }
+    //bu enpoint kullanıcı adıyla sorgulama yapsın kullanıcının elinde kaçtane kitap var ve hangi kitapçıdan gelmiş
 
 }
 

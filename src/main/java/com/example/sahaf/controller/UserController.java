@@ -1,5 +1,6 @@
 package com.example.sahaf.controller;
 
+import com.example.sahaf.dto.UsersPageDto;
 import com.example.sahaf.entities.User;
 import com.example.sahaf.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,10 @@ public class UserController {
     public ResponseEntity<User> findById(@PathVariable int id) {
         User user = userService.findById(id);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{no}/{size}")
+    public UsersPageDto getUsers(@PathVariable int no, @PathVariable int size){
+        return userService.getUsersList(no, size);
     }
 }

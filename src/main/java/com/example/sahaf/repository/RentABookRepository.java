@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface RentABookRepository extends JpaRepository<RentABook, Integer> {
     List<RentABook> findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(Date endDate, Date date);
+    List<RentABook> findAllByUserName(String userName);
 
 
 }

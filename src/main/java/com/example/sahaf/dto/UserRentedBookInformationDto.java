@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
-public class BookStoreAddBookResponse {
+public class UserRentedBookInformationDto {
     private String bookStoreName;
     private String bookName;
-    private String author;
 }

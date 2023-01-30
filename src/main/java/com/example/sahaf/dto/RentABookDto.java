@@ -8,13 +8,14 @@ import java.util.Date;
 
 @Getter
 @Setter
-@Data
 public class RentABookDto {
     private int id;
     private int userId;
     private int bookId;
     private Date startDate;
     private Date endDate;
+    private int bookStore;
+    private String userName;
 
 
 }

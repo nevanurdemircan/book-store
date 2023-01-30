@@ -17,7 +17,6 @@ import java.util.List;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
     public String name;
     public String authorName;

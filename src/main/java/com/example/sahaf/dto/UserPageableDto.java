@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookCreateDto {
-
+public class UserPageableDto {
     public int id;
     public String name;
-    public String authorName;
-    public String publisher;
+    public String surname;
+    public String phoneNumber;
 }

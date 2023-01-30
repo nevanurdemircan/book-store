@@ -10,6 +10,7 @@ import com.example.sahaf.service.BookStoreService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,17 +23,17 @@ public class BookStoreServiceImpl implements BookStoreService {
 
     @Override
     public BookStore saveBookStore(BookStore bookStore) {
-        return this.bookStoreRepository.save(bookStore);
+        return bookStoreRepository.save(bookStore);
     }
 
     @Override
     public List<BookStore> findAll() {
-        return this.bookStoreRepository.findAll();
+        return bookStoreRepository.findAll();
     }
 
     @Override
     public BookStore updateBookStore(BookStore bookStore) {
-        return this.bookStoreRepository.save(bookStore);
+        return bookStoreRepository.save(bookStore);
     }
 
     @Override
@@ -59,4 +60,5 @@ public class BookStoreServiceImpl implements BookStoreService {
         response.setAuthor(book.getAuthorName());
         return response;
     }
+
 }

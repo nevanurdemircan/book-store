@@ -1,5 +1,6 @@
 package com.example.sahaf.service;
 
+import com.example.sahaf.dto.UsersPageDto;
 import com.example.sahaf.entities.User;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface UserService {
     Boolean delete(int id);
 
     User findById(int id);
+    UsersPageDto getUsersList(int no, int size);
 }
