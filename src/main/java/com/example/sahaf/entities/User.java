@@ -26,6 +26,4 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     List<RentABook> rentABooks;
-
-
 }

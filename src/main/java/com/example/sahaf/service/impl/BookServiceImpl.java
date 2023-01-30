@@ -18,17 +18,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book save(Book book) {
-        return this.bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
     public List<Book> findAll() {
-        return this.bookRepository.findAll();
+        return bookRepository.findAll();
     }
 
     @Override
     public Book updateBook(Book book) {
-        return this.bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findById(int id) {
-        return this.bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
 

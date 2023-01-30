@@ -17,8 +17,8 @@ public class BookController {
 
     @PostMapping("save")
     public ResponseEntity<Book> saveBook(@RequestBody Book book) {
-        Book book1 = bookService.save(book);
-        return ResponseEntity.ok(book1);
+        Book response = bookService.save(book);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("delete/{id}")
