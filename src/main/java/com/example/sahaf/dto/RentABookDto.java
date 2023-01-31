@@ -1,6 +1,5 @@
 package com.example.sahaf.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +9,16 @@ import java.util.Date;
 @Setter
 public class RentABookDto {
     private int id;
-    private int userId;
-    private int bookId;
+    private String bookName;
     private Date startDate;
     private Date endDate;
-    private int bookStore;
+    private String bookStoreName;
     private String userName;
+    private int bookId;
+
+    private int userId;
+
+
 
 
 }

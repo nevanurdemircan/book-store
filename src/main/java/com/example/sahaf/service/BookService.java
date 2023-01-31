@@ -1,18 +1,18 @@
 package com.example.sahaf.service;
 
-import com.example.sahaf.entities.Book;
+import com.example.sahaf.dto.BookDto;
 
 
 import java.util.List;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(BookDto bookDto);
 
-    List<Book> findAll();
+    List<BookDto> findAll();
 
-    Book updateBook(Book book);
+    BookDto updateBook(BookDto bookDto);
 
     Boolean delete(int id);
 
-    Book findById(int id);
+    BookDto findById(int id);
 }

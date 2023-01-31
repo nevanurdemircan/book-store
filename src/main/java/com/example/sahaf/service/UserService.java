@@ -1,19 +1,19 @@
 package com.example.sahaf.service;
 
+import com.example.sahaf.dto.UserDto;
 import com.example.sahaf.dto.UsersPageDto;
-import com.example.sahaf.entities.User;
 
 import java.util.List;
 
 public interface UserService {
-    User saveUser(User user);
+    UserDto saveUser(UserDto userDto);
 
-    List<User> findAll();
+    List<UserDto> findAll();
 
-    User updateUser(User user);
+    UserDto updateUser(UserDto userDto);
 
     Boolean delete(int id);
 
-    User findById(int id);
+    UserDto findById(int id);
     UsersPageDto getUsersList(int no, int size);
 }

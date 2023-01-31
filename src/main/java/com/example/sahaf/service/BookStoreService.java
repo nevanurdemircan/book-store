@@ -1,17 +1,17 @@
 package com.example.sahaf.service;
 
 import com.example.sahaf.dto.BookStoreAddBookResponse;
-import com.example.sahaf.entities.BookStore;
+import com.example.sahaf.dto.BookStoreDto;
 import com.example.sahaf.request.BookStoreAddBookRequest;
 
 import java.util.List;
 
 public interface BookStoreService {
-    BookStore saveBookStore(BookStore bookStore);
+    BookStoreDto save(BookStoreDto bookStoreDto);
 
-    List<BookStore> findAll();
+    List<BookStoreDto> findAll();
 
-    BookStore updateBookStore(BookStore bookStore);
+    BookStoreDto updateBookStore(BookStoreDto bookStoreDto);
 
     Boolean delete(int id);
 

@@ -1,9 +1,12 @@
 package com.example.sahaf.entities;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -11,19 +14,17 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int id;
-    public String name;
-    public String surname;
-    public String phoneNumber;
+    private int id;
+    private String name;
+    private String surname;
+    private String phoneNumber;
 
     @ManyToMany
     private List<BookStore> bookStores;
 
     @OneToMany(mappedBy = "user")
-    List<RentABook> rentABooks;
+    private List<RentABook> rentABooks;
 }

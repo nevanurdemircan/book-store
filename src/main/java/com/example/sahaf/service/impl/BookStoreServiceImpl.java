@@ -1,7 +1,9 @@
 package com.example.sahaf.service.impl;
 
+import com.example.sahaf.convert.BookStoreConverter;
+import com.example.sahaf.dto.BookDto;
 import com.example.sahaf.dto.BookStoreAddBookResponse;
-import com.example.sahaf.entities.Book;
+import com.example.sahaf.dto.BookStoreDto;
 import com.example.sahaf.entities.BookStore;
 import com.example.sahaf.repository.BookStoreRepository;
 import com.example.sahaf.request.BookStoreAddBookRequest;
@@ -10,30 +12,36 @@ import com.example.sahaf.service.BookStoreService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BookStoreServiceImpl implements BookStoreService {
     private final BookStoreRepository bookStoreRepository;
     private final BookService bookService;
+    private final BookStoreConverter bookStoreConverter;
+
 
     @Override
-    public BookStore saveBookStore(BookStore bookStore) {
-        return bookStoreRepository.save(bookStore);
+    public BookStoreDto save(BookStoreDto bookStoreDto) {
+        BookStore bookStore = bookStoreConverter.bookStoreDtoConvertToBookStore(bookStoreDto);
+        bookStore=bookStoreRepository.save(bookStore);
+        return bookStoreConverter.bookStoreConvertToBookStoreDto(bookStore);
     }
 
     @Override
-    public List<BookStore> findAll() {
-        return bookStoreRepository.findAll();
+    public List<BookStoreDto> findAll() {
+        return bookStoreRepository.findAll().stream().map(bookStoreConverter::bookStoreConvertToBookStoreDto).collect(Collectors.toList());
     }
 
     @Override
-    public BookStore updateBookStore(BookStore bookStore) {
-        return bookStoreRepository.save(bookStore);
+    public BookStoreDto updateBookStore(BookStoreDto bookStoreDto) {
+        BookStore bookStore = bookStoreConverter.bookStoreDtoConvertToBookStore(bookStoreDto);
+        bookStore=bookStoreRepository.save(bookStore);
+        return bookStoreConverter.bookStoreConvertToBookStoreDto(bookStore);
     }
 
     @Override
@@ -49,15 +57,14 @@ public class BookStoreServiceImpl implements BookStoreService {
     @Override
     public BookStoreAddBookResponse bookStoreAddBook(BookStoreAddBookRequest request) {
         BookStore bookStore = bookStoreRepository.findById(request.getBookStoreId()).orElseThrow(EntityNotFoundException::new);
-        Book book = bookService.findById(request.getBookId());
+        BookDto bookDto = bookService.findById(request.getBookId());
 
-        book.setBookStore(bookStore);
-        bookService.save(book);
-
+        bookDto.setBookStore(bookDto.getBookStore());
+        bookService.save(bookDto);
         BookStoreAddBookResponse response = new BookStoreAddBookResponse();
         response.setBookStoreName(bookStore.getName());
-        response.setBookName(book.name);
-        response.setAuthor(book.getAuthorName());
+        response.setBookName(bookDto.getName());
+        response.setAuthor(bookDto.getAuthorName());
         return response;
     }
 

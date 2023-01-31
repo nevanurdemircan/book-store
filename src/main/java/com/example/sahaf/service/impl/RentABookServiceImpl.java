@@ -1,5 +1,6 @@
 package com.example.sahaf.service.impl;
 
+import com.example.sahaf.convert.RentABookConverter;
 import com.example.sahaf.dto.FindAllByStartDateResponse;
 import com.example.sahaf.dto.RentABookDto;
 import com.example.sahaf.dto.UserRentedBookInformationDto;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +30,18 @@ public class RentABookServiceImpl implements RentABookService {
     private final RentABookRepository rentABookRepository;
     private final BookService bookService;
     private final UserService userService;
+    private final RentABookConverter rentABookConverter;
 
 
     @Override
     public String rentedBook(RentABookDto rentABookDto) {
         RentABook rentABook = new RentABook();
 
+        Book book = new Book();
+        book.setId(rentABookDto.getBookId());
 
-        Book book = this.bookService.findById(rentABookDto.getBookId());
-
-        User user = this.userService.findById(rentABookDto.getUserId());
+        User user = new User();
+        user.setId(rentABookDto.getUserId());
 
         Date startDate = new Date();
 
@@ -56,22 +60,12 @@ public class RentABookServiceImpl implements RentABookService {
         this.rentABookRepository.save(rentABook);
 
         return "Başarılı";
-
     }
 
     @Override
-    public RentABook save(RentABook rentABook) {
-        return rentABookRepository.save(rentABook);
-    }
+    public List<RentABookDto> findAll() {
 
-    @Override
-    public RentABook update(RentABook rentABook) {
-        return rentABookRepository.save(rentABook);
-    }
-
-    @Override
-    public List<RentABook> findAll() {
-        return rentABookRepository.findAll();
+        return rentABookRepository.findAll().stream().map(rentABookConverter::rentABookConvertToRentABookDto).collect(Collectors.toList());
     }
 
     @Override
@@ -92,16 +86,9 @@ public class RentABookServiceImpl implements RentABookService {
 
         rentABookList.forEach(rentABook -> {
 
-            RentABookDto dto = new RentABookDto();
+            RentABookDto rentABookDto = rentABookConverter.rentABookConvertToRentABookDto(rentABook);
 
-            dto.setBookId(rentABook.getBook().getId());
-            dto.setStartDate(rentABook.getStartDate());
-            dto.setEndDate(rentABook.getEndDate());
-            dto.setUserId(rentABook.getUser().getId());
-            dto.setId(rentABook.getId());
-
-            rentABookDtos.add(dto);
-
+            rentABookDtos.add(rentABookDto);
         });
         FindAllByStartDateResponse findAllByStartDateResponse = new FindAllByStartDateResponse();
         findAllByStartDateResponse.setCount(rentABookDtos.size());
@@ -116,10 +103,9 @@ public class RentABookServiceImpl implements RentABookService {
         List<UserRentedBookInformationDto> dtos = new ArrayList<>();
 
         rentABookList.forEach(rentABook -> {
-            UserRentedBookInformationDto dto = new UserRentedBookInformationDto();
-            dto.setBookName(rentABook.getBook().getName());
-            dto.setBookStoreName(rentABook.getBook().getBookStore().getName());
-            dtos.add(dto);
+
+            UserRentedBookInformationDto userRentedBookInformationDto = rentABookConverter.rentABookDtoConvertToUserRentedBookInformationDto(rentABook);
+            dtos.add(userRentedBookInformationDto);
         });
         UserRentedBookInformationResponse response = new UserRentedBookInformationResponse();
         response.setUserRentedBookInformationDtos(dtos);
@@ -127,8 +113,6 @@ public class RentABookServiceImpl implements RentABookService {
 
         return response;
     }
-    //bu enpoint kullanıcı adıyla sorgulama yapsın kullanıcının elinde kaçtane kitap var ve hangi kitapçıdan gelmiş
-
 }
 
 
